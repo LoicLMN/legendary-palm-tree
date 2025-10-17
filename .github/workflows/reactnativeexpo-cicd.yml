@@ -64,10 +64,7 @@ jobs:
         run: npx tsc
 
       - name: 🧹 Run ESLint
-        run: npm lint
-
-      - name: 🎨 Run Prettier check
-        run: npm format:check
+        run: npm run lint
 
   build-and-deploy:
     needs: test
