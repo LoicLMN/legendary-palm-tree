@@ -61,7 +61,7 @@ jobs:
         run: npm install
 
       - name: 🧪 Run TypeScript check
-        run: npm run tsc
+        run: npx tsc
 
       - name: 🧹 Run ESLint
         run: npm lint
