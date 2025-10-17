@@ -9,6 +9,8 @@ import {
 import { WebView } from 'react-native-webview';
 import React from 'react';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { DrawerScreenProps } from '@react-navigation/drawer';
+import { Book } from '../../entities/book';
 
 /*
 todo : make a script that loads pages from ?page=1 to 
@@ -23,8 +25,8 @@ if length > 2 then OK, else chapter unavailable
 Array.from(document.getElementById('chapter-above-ads').nextElementSibling.querySelectorAll('img')).filter(x => x.src.startsWith('https://gg.asuracomic.net/storage/media/')).map(x => x.src)
 */
 
-const SettingsScreen = ({ navigation }) => {
-  const [data, setData] = React.useState([]);
+const SettingsScreen : React.FC<any> = ({ navigation }) => {
+  const [data, setData] = React.useState<Book[]>([]);
   const [host, onChangeHost] = React.useState('host');
   const [url, changeUrl] = React.useState('');
   const [startProcess, changeRun] = React.useState(false);
@@ -46,7 +48,7 @@ const SettingsScreen = ({ navigation }) => {
     return script;
   };
 
-  const handleMessage = (event) => {
+  const handleMessage = (event: { nativeEvent: { data: string; }; }) => {
     const extractedData = JSON.parse(event.nativeEvent.data);
     setData(extractedData);
   };
