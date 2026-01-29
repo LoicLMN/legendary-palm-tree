@@ -920,4 +920,37 @@ const useAppStore = () => useContext(AppContext);
 
 ```typescript
 export const ProductList: React.FC = () => {
+export const ProductList: React.FC = () => {
+  const { products, productsLoading, setProducts, setProductsLoading, setProductsError } = useAppStore();
+  const httpClient = new HttpClient();
+  const productRepository = new HttpProductRepository(httpClient);
+
+  useEffect(() => {
+    const useCase = new GetAllProductsUseCase(productRepository);
+    setProductsLoading(true);
+
+    useCase.execute()
+      .then(response => {
+        setProducts(response.products);
+        setProductsLoading(false);
+      })
+      .catch(error => {
+        setProductsError(error.message);
+        setProductsLoading(false);
+      });
+  }, []);
+
+  return (
+    <div>
+      {!productsLoading ? (
+        <ul>
+          {products.map(p => <li key={p.id}>{p.name}</li>)}
+        </ul>
+      ) : (
+        <p>Chargement...</p>
+      )}
+    </div>
+  );
+};
+
 ```
